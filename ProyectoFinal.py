@@ -1,4 +1,4 @@
-#!/usr/local/bin/python
+#!/usr/local/bin/python3
 
 ##Variables##
 conjuntoValido=False
@@ -54,11 +54,13 @@ def Complemento (cA,universo):
 
 ##Esta funcion devuelve el conjunto potencia de un conjunto dado##
 def Potencia(cA):
-    
-    
-
-
-    return cP
+    for i in range(0,2**len(cA)):           #Hay 2^n combinaciones
+        bin_comb = bin(i)[2:].zfill(len(cA))#Pasar a binario y agregar 0s izq
+        combination = []                    #Combinacion que se agregara                 
+        for j in range(0,len(bin_comb)):   
+            if bin_comb[j]=='1':            #Si hay 1 agregar ese elemento
+                combination+=[cA[j]]
+        yield combination                   #Regresamos esa combinacion
 
 ##Inputs##
 U = input("Introduce los elementos del universo separados por comas: \n")
@@ -153,5 +155,8 @@ for i in range(len(Bcomp)):
     else:
         print(Bcomp[i])
 ##potencia
+print ("Conjunto potencia Universo")
+for combination in Potencia(universo):
+    print(combination)
 
 
