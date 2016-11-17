@@ -1,9 +1,36 @@
 #!/usr/local/bin/python3
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-##Variables##
-conjuntoValido=False
 
-##Funciones##
+FUNCIONES
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+##Con esta funcion se crean y validan los conjuntos A y B##
+def CrearConjunto(universo , nombre_conjunto_nuevo):
+    conjuntoValido=False
+    
+    TextoInput1="Introduce los elementos del conjunto "
+    TextoInput2=" separados por comas : \n"
+    TextoInput=TextoInput1+nombre_conjunto_nuevo+TextoInput2
+    
+    while (conjuntoValido==False):
+        conjuntoNuevo = input(TextoInput)
+        input_list = conjuntoNuevo.split(',')
+        conjuntoNuevo = [x.strip() for x in input_list]
+
+        for i in range(len(conjuntoNuevo)):
+            existe = False
+            for j in range(len(universo)):
+                if conjuntoNuevo[i]==universo[j]:
+                    existe=True
+            if(existe==False):
+                print("El conjunto ",nombre_conjunto_nuevo ," no es subconjunto de U")
+                conjuntoValido=False
+                break
+            conjuntoValido=True            
+    return conjuntoNuevo
+
 ##Esta funcion devuelve 4 conjuntos##
 ##(A-B), (B-A), (A^B), (A U B)
 def Operaciones(cA,cB, universo):
@@ -32,10 +59,8 @@ def Operaciones(cA,cB, universo):
     #Obtiene la interseccion de A y B
     for i in range(index):
         cI[i]=cT[i]
-
     #Obtiene A union B
     cU = cA+cI+cB
-    
     return cI, cA, cB, cU
 
 ##Esta funcion devuelve el complemento de un conjunto dado
@@ -62,56 +87,25 @@ def Potencia(cA):
                 combination+=[cA[j]]
         yield combination                   #Regresamos esa combinacion
 
-##Inputs##
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+
+MAIN
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
 U = input("Introduce los elementos del universo separados por comas: \n")
 input_list = U.split(',')
 universo = [x.strip() for x in input_list]
 
+A=CrearConjunto(U,"A")
+B=CrearConjunto(U,"B")
 
-#valida los elementos introducidos en el conjunto A
-#en relacion con los elementos de U
-while (conjuntoValido==False):
-
-    A = input("Introduce los elementos del conjunto A separados por comas : \n")
-    input_list = A.split(',')
-    cA = [x.strip() for x in input_list]
-
-    for i in range(len(cA)):
-        existe = False
-        for j in range(len(universo)):
-            if cA[i]==universo[j]:
-                existe=True
-        if(existe==False):
-            print("El conjunto A no es subconjunto de U")
-            conjuntoValido=False
-            break
-        conjuntoValido=True
-
-
-#valida los elementos introducidos en el conjunto B
-#en relacion con los elementos de U
-conjuntoValido=False
-
-while (conjuntoValido==False):
-
-    B = input("Introduce los elementos del conjunto B separados por comas:  \n")
-    input_list = B.split(',')
-    cB = [x.strip() for x in input_list]
-
-    for i in range(len(cB)):
-        existe = False
-        for j in range(len(universo)):
-            if cB[i]==universo[j]:
-                existe=True
-        if(existe==False):
-            print("El conjunto B no es subconjunto de U")
-            conjuntoValido=False
-            break
-        conjuntoValido=True
-
-Acomp = Complemento(cA,universo)
-Bcomp = Complemento (cB,universo)
-cI,cA,cB,cU = Operaciones(cA,cB, universo)
+Acomp = Complemento(A,universo)
+Bcomp = Complemento (B,universo)
+cI,cA,cB,cU = Operaciones(A,B, universo)
 
 print("A Interseccion B")
 for i in range(len(cI)):
@@ -154,9 +148,11 @@ for i in range(len(Bcomp)):
         print(Bcomp[i],",",end="")
     else:
         print(Bcomp[i])
-##potencia
+
 print ("Conjunto potencia Universo")
 for combination in Potencia(universo):
     print(combination)
+
+
 
 
