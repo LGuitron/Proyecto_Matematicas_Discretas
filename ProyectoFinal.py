@@ -6,6 +6,14 @@ FUNCIONES
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+##Con esta funcion se crea el conjunto universo##
+def CrearUniverso():
+    U = input("Introduce los elementos del universo separados por comas: \n")
+    input_list = U.split(',')
+    universo = [x.strip() for x in input_list]
+    return universo
+
 ##Con esta funcion se crean y validan los conjuntos A y B##
 def CrearConjunto(universo , nombre_conjunto_nuevo):
     conjuntoValido=False
@@ -87,6 +95,15 @@ def Potencia(cA):
                 combination+=[cA[j]]
         yield combination                   #Regresamos esa combinacion
 
+##Esta Funcion Imprime los conjuntos##
+def ImprimirConjunto(conjunto,nombre_del_conjunto):
+    print(nombre_del_conjunto)
+    for i in range(len(conjunto)):
+        if(i<len(conjunto)-1):
+            print(conjunto[i],", ",end="")
+        else:
+            print(conjunto[i])
+    print()
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -95,64 +112,27 @@ MAIN
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-U = input("Introduce los elementos del universo separados por comas: \n")
-input_list = U.split(',')
-universo = [x.strip() for x in input_list]
-
+                  
+U=CrearUniverso()
 A=CrearConjunto(U,"A")
 B=CrearConjunto(U,"B")
 
-Acomp = Complemento(A,universo)
-Bcomp = Complemento (B,universo)
-cI,cA,cB,cU = Operaciones(A,B, universo)
+interseccion,soloA,soloB,union = Operaciones(A,B,U)
+A_complemento = Complemento(A,U)
+B_complemento = Complemento (B,U)
+cPotencia = Potencia(U)
 
-print("A Interseccion B")
-for i in range(len(cI)):
-    if(i<len(cI)-1):
-        print(cI[i],",",end="")
-    else:
-        print(cI[i])
-    
-print("A-B")
-for i in range(len(cA)):
-    if(i<len(cA)-1):
-        print(cA[i],",",end="")
-    else:
-        print(cA[i])
-        
-print("B-A")
-for i in range(len(cB)):
-    if(i<len(cB)-1):
-        print(cB[i],",",end="")
-    else:
-        print(cB[i])
-
-print("A Union B")
-for i in range(len(cU)):
-    if(i<len(cU)-1):
-        print(cU[i],",",end="")
-    else:
-        print(cU[i])
-
-print("A complemento")
-for i in range(len(Acomp)):
-    if(i<len(Acomp)-1):
-        print(Acomp[i],",",end="")
-    else:
-        print(Acomp[i])
-
-print("B complemento")
-for i in range(len(Bcomp)):
-    if(i<len(Bcomp)-1):
-        print(Bcomp[i],",",end="")
-    else:
-        print(Bcomp[i])
+ImprimirConjunto(interseccion,"A Interseccion B")
+ImprimirConjunto(soloA,"A - B")
+ImprimirConjunto(soloB,"B - A")
+ImprimirConjunto(union,"A U B")
+ImprimirConjunto(A_complemento,"A Complemento")
+ImprimirConjunto(B_complemento,"B Complemento")
+##ImprimirConjunto(cPotencia,"Conjunto potencia Universo")
 
 print ("Conjunto potencia Universo")
-for combination in Potencia(universo):
+for combination in Potencia(U):
     print(combination)
-
 
 
 
