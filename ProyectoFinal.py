@@ -121,15 +121,14 @@ def CrearConjunto(universo , nombre_conjunto_nuevo):
 
 #Funcion que elimina elementos repetidos de un conjunto
 def QuitarRepetidos(cA):
-    eliminados=0
     i=0
     j=0
     while i<len(cA):
         j=0
         while j<len(cA):
-            if(i!=j and cA[i]==cA[j]):
-                del cA[j]
-                i = 0
+            if(i!=j and cA[i]==cA[j]):                              #Encuentra elementos iguales con diferente indice
+                del cA[j]                                           #Elimina una de las repeticiones
+                i = 0                                               #Se reinician ambos contadores para mantener el orden original
                 j = 0
             j+=1
         i+=1
@@ -162,16 +161,14 @@ def Union(cA,cB):
 
 #Funcion para complemento de un conjunto
 def Complemento (cA,universo):
-    cR=[' ']*(len(universo)-len(cA))
-    index=0
+    cR=[]
     for i in range(len(universo)):
         elementoEncA = False
         for j in range(len(cA)):
-            if(cA[j]==universo[i]):
-                elementoEncA=True
-        if(elementoEncA==False):
-            cR[index]=universo[i]
-            index+=1   
+            if(cA[j]==universo[i]):             #Se verifica si un elemento en cA esta en cU
+                elementoEncA=True               
+        if(elementoEncA==False):                #Si no está es agregado al complemento
+            cR+=universo[i]
     return cR
 
 #Funcion para conjunto potencia de un conjunto
@@ -187,10 +184,12 @@ def Potencia(cA):
 #Funcion para imprimir conjuntos
 def ImprimirConjunto(conjunto,nombre_del_conjunto):
     print(nombre_del_conjunto)
-    print("[",end="")                       #Abre Corchete al inicio
-    for i in range(len(conjunto)):        
-        print(conjunto[i],",",end="")
-    print("] \n")                           #Imprime ultimo elemento y cierra corchete
+    print("[",end="")
+    for i in range(len(conjunto)):
+        if(i<len(conjunto)-1):
+            print(conjunto[i],",",end="")       #Imprime con coma si no es el ultimo elemento
+        else:
+            print(conjunto[i],end="] \n")       
     
 #Funcion para imprimir conjunto potencia
 def ImprimirPotencia(cA,nombre_del_conjunto):
