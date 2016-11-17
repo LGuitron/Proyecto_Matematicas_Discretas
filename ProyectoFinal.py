@@ -7,6 +7,56 @@ FUNCIONES
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+def Menu():
+    
+    terminar=False
+    conjuntosEstablecidos=False
+    
+    while(terminar==False):
+        print("____Calculadora de Conjuntos_____\n")
+        print("Selecciona una opcion: \n")
+        print("1. Introduce nuevos conjuntos")
+        print("2. Realiza operacion con conjuntos")
+        print("3. Salir")
+        respuesta=input("Tu seleccion: ")
+
+        if(respuesta=="1"):
+            
+            U=CrearUniverso()
+            A=CrearConjunto(U,"A")
+            B=CrearConjunto(U,"B")
+            print("\n")
+            conjuntosEstablecidos=True
+       
+        elif(respuesta=="2" and conjuntosEstablecidos==False):
+            print("Primero introduce nuevos conjuntos para poder realizar operaciones")
+            print("\n")
+
+        elif(respuesta=="2"):
+            interseccion,soloA,soloB,union = Operaciones(A,B,U)
+            A_complemento = Complemento(A,U)
+            B_complemento = Complemento (B,U)
+            cPotencia = Potencia(U)
+            print("Los resultados son:\n")
+            ImprimirConjunto(interseccion,"A Interseccion B")
+            ImprimirConjunto(soloA,"A - B")
+            ImprimirConjunto(soloB,"B - A")
+            ImprimirConjunto(union,"A U B")
+            ImprimirConjunto(A_complemento,"A Complemento")
+            ImprimirConjunto(B_complemento,"B Complemento")
+            print ("Conjunto potencia Universo")
+            for combination in Potencia(U):
+                print(combination)
+            print("\n")
+            
+        elif(respuesta=="3"):
+            terminar=True
+
+        else:
+            print("Opcion no valida, escoje un numero entre 1 y 3")
+            print("\n")
+
+
 ##Con esta funcion se crea el conjunto universo##
 def CrearUniverso():
     U = input("Introduce los elementos del universo separados por comas: \n")
@@ -44,7 +94,7 @@ def CrearConjunto(universo , nombre_conjunto_nuevo):
 def Operaciones(cA,cB, universo):
     
     index=0
-    cT = [A] * len(cA)
+    cT = [' '] * len(cA)
     i=0
     j=0
 
@@ -62,7 +112,7 @@ def Operaciones(cA,cB, universo):
                 break
             j+=1
         i+=1
-    cI=[A]*index
+    cI=[' ']*index
 
     #Obtiene la interseccion de A y B
     for i in range(index):
@@ -73,7 +123,7 @@ def Operaciones(cA,cB, universo):
 
 ##Esta funcion devuelve el complemento de un conjunto dado
 def Complemento (cA,universo):
-    cR=[A]*(len(universo)-len(cA))
+    cR=[' ']*(len(universo)-len(cA))
     index=0
     for i in range(len(universo)):
         elementoEncA = False
@@ -112,27 +162,6 @@ MAIN
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-                  
-U=CrearUniverso()
-A=CrearConjunto(U,"A")
-B=CrearConjunto(U,"B")
 
-interseccion,soloA,soloB,union = Operaciones(A,B,U)
-A_complemento = Complemento(A,U)
-B_complemento = Complemento (B,U)
-cPotencia = Potencia(U)
-
-ImprimirConjunto(interseccion,"A Interseccion B")
-ImprimirConjunto(soloA,"A - B")
-ImprimirConjunto(soloB,"B - A")
-ImprimirConjunto(union,"A U B")
-ImprimirConjunto(A_complemento,"A Complemento")
-ImprimirConjunto(B_complemento,"B Complemento")
-##ImprimirConjunto(cPotencia,"Conjunto potencia Universo")
-
-print ("Conjunto potencia Universo")
-for combination in Potencia(U):
-    print(combination)
-
-
+Menu()
 
