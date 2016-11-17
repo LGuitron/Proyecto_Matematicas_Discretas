@@ -110,6 +110,7 @@ def CrearUniverso():
     U = input("Introduce los elementos del universo separados por comas: \n")
     input_list = U.split(',')
     universo = [x.strip() for x in input_list]
+    universo=QuitarRepetidos(universo)
     return universo
 
 ##Con esta funcion se crean y validan los conjuntos A y B##
@@ -127,15 +128,35 @@ def CrearConjunto(universo , nombre_conjunto_nuevo):
 
         for i in range(len(conjuntoNuevo)):
             existe = False
+            #Se verifica que cada elemento del nuevo conjunto tambien este en U
             for j in range(len(universo)):
-                if conjuntoNuevo[i]==universo[j]:
+                if conjuntoNuevo[i]==universo[j]:                 
                     existe=True
             if(existe==False):
                 print("El conjunto ",nombre_conjunto_nuevo ," no es subconjunto de U")
                 conjuntoValido=False
                 break
-            conjuntoValido=True            
+            conjuntoValido=True
+            
+    conjuntoNuevo=QuitarRepetidos(conjuntoNuevo)
     return conjuntoNuevo
+
+##Esta funcion elimina elementos repetidos en conjuntos##
+def QuitarRepetidos(cA):
+    eliminados=0
+    i=0
+    j=0
+    while i<len(cA):
+        j=0
+        while j<len(cA):
+            if(i!=j and cA[i]==cA[j]):
+                del cA[j]
+                i = 0
+                j = 0
+            j+=1
+        i+=1
+    return cA
+
 
 ##Esta funcion devuelve 4 conjuntos##
 ##(A-B), (B-A), (A ∩ B), (A ∪ B)
