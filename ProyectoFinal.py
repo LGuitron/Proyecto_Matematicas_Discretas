@@ -1,4 +1,4 @@
-#!/usr/local/bin/python3
+#!/usr/bin/python3
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 
@@ -50,7 +50,6 @@ def Menu():
 
 def SeleccionarOperacion(A,B,U):
     
-    interseccion,soloA,soloB,union = Operaciones(A,B,U)
     print("Selecciona la operacion que quieres realizar: \n")
     print("1. A ∩ B")
     print("2. A ∪ B")
@@ -64,16 +63,18 @@ def SeleccionarOperacion(A,B,U):
     respuesta=input("Tu seleccion: ")
 
     if(respuesta=="1"):
-        ImprimirConjunto(interseccion,"A ∩ B")
+        ImprimirConjunto(Interseccion(A,B),"A ∩ B")
         
     elif(respuesta=="2"):
-        ImprimirConjunto(union,"A ∪ B")
+        ImprimirConjunto(Union(A,B),"A ∪ B")
         
     elif(respuesta=="3"):
-        ImprimirConjunto(soloA,"A - B")
+        print("a")
+        #ImprimirConjunto(soloA,"A - B")
         
     elif(respuesta=="4"):
-        ImprimirConjunto(soloB,"B - A")
+        print("a")
+        #ImprimirConjunto(soloB,"B - A")
         
     elif(respuesta=="5"):
         A_complemento = Complemento(A,U)
@@ -157,38 +158,23 @@ def QuitarRepetidos(cA):
         i+=1
     return cA
 
-
-##Esta funcion devuelve 4 conjuntos##
-##(A-B), (B-A), (A ∩ B), (A ∪ B)
-def Operaciones(cA,cB, universo):
-    
-    index=0
-    cT = [' '] * len(cA)
-    i=0
-    j=0
-
-    #Obtiene (A-B) y (B-A) en estos ciclos
-    while i<len(cA):
-        j=0
-        while j<len(cB):
+def Interseccion(cA,cB):
+    resultado=[]
+    for i in range(len(cA)):
+        for j in range(len(cB)):
             if(cA[i]==cB[j]):
-                cT[index]=cA[i]
-                index+=1
-                del cA[i]
-                del cB[j]
-                i = 0
-                j = 0
-                break
-            j+=1
-        i+=1
-    cI=[' ']*index
+                print(cA[i])
+                resultado+=cA[i]
+    return resultado
 
-    #Obtiene la interseccion de A y B
-    for i in range(index):
-        cI[i]=cT[i]
-    #Obtiene A union B
-    cU = cA+cI+cB
-    return cI, cA, cB, cU
+def Union(cA,cB):
+    resultado=[]
+    for i in range(len(cA)):
+        resultado+=[cA[i]]
+    for i in range(len(cB)):
+        resultado+=[cB[i]]
+    resultado=QuitarRepetidos(resultado)
+    return resultado
 
 ##Esta funcion devuelve el complemento de un conjunto dado
 def Complemento (cA,universo):
