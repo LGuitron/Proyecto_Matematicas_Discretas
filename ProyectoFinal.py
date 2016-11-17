@@ -6,7 +6,7 @@ FUNCIONES
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
+#Funcion para menu
 def Menu():
     
     terminar=False
@@ -27,7 +27,7 @@ def Menu():
             B=CrearConjunto(U,"B")
             print("\n")
             conjuntosEstablecidos=True
-       
+            
         elif((respuesta=="2" or respuesta=="3") and conjuntosEstablecidos==False):
             print("Debes introducir nuevos conjuntos para realizar esta seleccion")
             print("\n")
@@ -47,7 +47,7 @@ def Menu():
             print("Opcion no valida, escoje un numero entre 1 y 3")
             print("\n")
 
-
+#Funcion para elegir operacion de conjuntos
 def SeleccionarOperacion(A,B,U):
     
     print("Selecciona la operacion que quieres realizar: \n")
@@ -62,87 +62,64 @@ def SeleccionarOperacion(A,B,U):
     print("9. Potencia U \n")
     respuesta=input("Tu seleccion: ")
 
+    #Imprime resultados
     if(respuesta=="1"):
-        ImprimirConjunto(Interseccion(A,B),"A ∩ B")
-        
+        ImprimirConjunto(Interseccion(A,B),"A ∩ B")       
     elif(respuesta=="2"):
-        ImprimirConjunto(Union(A,B),"A ∪ B")
-        
+        ImprimirConjunto(Union(A,B),"A ∪ B")    
     elif(respuesta=="3"):
-        print("a")
-        #ImprimirConjunto(soloA,"A - B")
-        
+        ImprimirConjunto(Diferencia(A,B),"A - B")  
     elif(respuesta=="4"):
-        print("a")
-        #ImprimirConjunto(soloB,"B - A")
-        
+        ImprimirConjunto(Diferencia(B,A),"B - A")  
     elif(respuesta=="5"):
-        A_complemento = Complemento(A,U)
-        ImprimirConjunto(A_complemento,"Complemento A")
-        
+        ImprimirConjunto(Complemento(A,U),"Complemento A")    
     elif(respuesta=="6"):
-        B_complemento = Complemento(A,U)
-        ImprimirConjunto(B_complemento,"Complemento B")
-        
+        ImprimirConjunto(Complemento(B,U),"Complemento B")   
     elif(respuesta=="7"):
-        print ("Conjunto potencia A")
-        for combination in Potencia(A):
-            print(combination)
-        print("\n")
-        
+        ImprimirPotencia(A,"Conjunto potencia A")  
     elif(respuesta=="8"):
-        print ("Conjunto potencia B")
-        for combination in Potencia(B):
-            print(combination)
-        print("\n")
-        
+        ImprimirPotencia(B,"Conjunto potencia B")     
     elif(respuesta=="9"):
-        print ("Conjunto potencia U")
-        for combination in Potencia(U):
-            print(combination)
-        print("\n")
-        
+        ImprimirPotencia(U,"Conjunto potencia U")       
     else:
         print("Opcion no valida")
-        resultado=0
 
-##Con esta funcion se crea el conjunto universo##
+#Funcion que crea el conjunto universo
 def CrearUniverso():
     U = input("Introduce los elementos del universo separados por comas: \n")
-    input_list = U.split(',')
-    universo = [x.strip() for x in input_list]
-    universo=QuitarRepetidos(universo)
+    input_list = U.split(',')                                                          #Distingue elementos separados por comas
+    universo = [x.strip() for x in input_list]  
+    universo=QuitarRepetidos(universo)                                                 
     return universo
 
-##Con esta funcion se crean y validan los conjuntos A y B##
+#Funcion que crea y valida los conjuntos A y B
 def CrearConjunto(universo , nombre_conjunto_nuevo):
     conjuntoValido=False
     
     TextoInput1="Introduce los elementos del conjunto "
     TextoInput2=" separados por comas : \n"
-    TextoInput=TextoInput1+nombre_conjunto_nuevo+TextoInput2
+    TextoInput=TextoInput1+nombre_conjunto_nuevo+TextoInput2                            #Concatena nombre escogido para el conjunto
     
     while (conjuntoValido==False):
         conjuntoNuevo = input(TextoInput)
-        input_list = conjuntoNuevo.split(',')
+        input_list = conjuntoNuevo.split(',')                                           #Distingue elementos separados por comas
         conjuntoNuevo = [x.strip() for x in input_list]
 
         for i in range(len(conjuntoNuevo)):
             existe = False
-            #Se verifica que cada elemento del nuevo conjunto tambien este en U
-            for j in range(len(universo)):
-                if conjuntoNuevo[i]==universo[j]:                 
+            for j in range(len(universo)):                  
+                if conjuntoNuevo[i]==universo[j]:                                       #Verifica que cada elemento del nuevo conjunto esté en U       
                     existe=True
-            if(existe==False):
-                print("El conjunto ",nombre_conjunto_nuevo ," no es subconjunto de U")
+            if(existe==False):                                                          #Si algun elemento no esta se debe volver a introducir el conjunto
+                print("El conjunto ",nombre_conjunto_nuevo ," no es subconjunto de U")  
                 conjuntoValido=False
                 break
             conjuntoValido=True
             
-    conjuntoNuevo=QuitarRepetidos(conjuntoNuevo)
+    conjuntoNuevo=QuitarRepetidos(conjuntoNuevo)                                        #Se eliminan elementos repetidos
     return conjuntoNuevo
 
-##Esta funcion elimina elementos repetidos en conjuntos##
+#Funcion que elimina elementos repetidos de un conjunto
 def QuitarRepetidos(cA):
     eliminados=0
     i=0
@@ -158,25 +135,32 @@ def QuitarRepetidos(cA):
         i+=1
     return cA
 
+def Diferencia(Minuendo,Sustraendo):
+    resultado=Minuendo[:]                                            #Se hace una copia del minuendo
+    for i in range(len(resultado)):
+        for j in range(len(Sustraendo)):
+            if(i<len(resultado) and resultado[i]==Sustraendo[j]):    #Verifica que no se salga del arreglo al reducir su tamaño
+                resultado.remove(resultado[i])                       #Quita elementos comunes en resultado
+    return resultado
+
 def Interseccion(cA,cB):
     resultado=[]
     for i in range(len(cA)):
         for j in range(len(cB)):
-            if(cA[i]==cB[j]):
-                print(cA[i])
+            if(cA[i]==cB[j]):                   #Inserta elementos comunes en resultado
                 resultado+=cA[i]
     return resultado
 
 def Union(cA,cB):
     resultado=[]
     for i in range(len(cA)):
-        resultado+=[cA[i]]
-    for i in range(len(cB)):
-        resultado+=[cB[i]]
-    resultado=QuitarRepetidos(resultado)
+        resultado+=[cA[i]]                      #Agrega todos los elementos de A
+    for i in range(len(cB)):    
+        resultado+=[cB[i]]                      #Agrega todos los elementos de B
+    resultado=QuitarRepetidos(resultado)        #Quita repetidos
     return resultado
 
-##Esta funcion devuelve el complemento de un conjunto dado
+#Funcion para complemento de un conjunto
 def Complemento (cA,universo):
     cR=[' ']*(len(universo)-len(cA))
     index=0
@@ -190,7 +174,7 @@ def Complemento (cA,universo):
             index+=1   
     return cR
 
-##Esta funcion devuelve el conjunto potencia de un conjunto dado##
+#Funcion para conjunto potencia de un conjunto
 def Potencia(cA):
     for i in range(0,2**len(cA)):           #Hay 2^n combinaciones
         bin_comb = bin(i)[2:].zfill(len(cA))#Pasar a binario y agregar 0s izq
@@ -200,15 +184,20 @@ def Potencia(cA):
                 combination+=[cA[j]]
         yield combination                   #Regresamos esa combinacion
 
-##Esta Funcion Imprime los conjuntos##
+#Funcion para imprimir conjuntos
 def ImprimirConjunto(conjunto,nombre_del_conjunto):
     print(nombre_del_conjunto)
-    for i in range(len(conjunto)):
-        if(i<len(conjunto)-1):
-            print(conjunto[i],", ",end="")
-        else:
-            print(conjunto[i])
-    print()
+    print("[",end="")                       #Abre Corchete al inicio
+    for i in range(len(conjunto)):        
+        print(conjunto[i],",",end="")
+    print("] \n")                           #Imprime ultimo elemento y cierra corchete
+    
+#Funcion para imprimir conjunto potencia
+def ImprimirPotencia(cA,nombre_del_conjunto):
+    print (nombre_del_conjunto)
+    for combination in Potencia(cA):
+        print(combination)
+    print("\n")
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
