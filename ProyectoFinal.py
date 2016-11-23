@@ -52,7 +52,7 @@ def SeleccionarOperacion(A,B,U):
     
     print("Selecciona la operacion que quieres realizar: \n")
     print("1. A ∩ B")
-    print("2. A ∪ B")
+    print("2. A U B")
     print("3. A - B")
     print("4. B - A")
     print("5. Complemento A")
@@ -66,15 +66,15 @@ def SeleccionarOperacion(A,B,U):
     if(respuesta=="1"):
         ImprimirConjunto(Interseccion(A,B),"A ∩ B")       
     elif(respuesta=="2"):
-        ImprimirConjunto(Union(A,B),"A ∪ B")    
+        ImprimirConjunto(Union(A,B),"A U B")    
     elif(respuesta=="3"):
         ImprimirConjunto(Diferencia(A,B),"A - B")  
     elif(respuesta=="4"):
         ImprimirConjunto(Diferencia(B,A),"B - A")  
     elif(respuesta=="5"):
-        ImprimirConjunto(Complemento(A,U),"Complemento A")    
+        ImprimirConjunto(Diferencia(U,A),"Complemento A")    
     elif(respuesta=="6"):
-        ImprimirConjunto(Complemento(B,U),"Complemento B")   
+        ImprimirConjunto(Diferencia(U,B),"Complemento B")   
     elif(respuesta=="7"):
         ImprimirPotencia(A,"Conjunto potencia A")  
     elif(respuesta=="8"):
@@ -158,18 +158,6 @@ def Union(cA,cB):
         resultado+=[cB[i]]                      #Agrega todos los elementos de B
     resultado=QuitarRepetidos(resultado)        #Quita repetidos
     return resultado
-
-#Funcion para complemento de un conjunto
-def Complemento (cA,universo):
-    cR=[]
-    for i in range(len(universo)):
-        elementoEncA = False
-        for j in range(len(cA)):
-            if(cA[j]==universo[i]):             #Se verifica si un elemento en cA esta en cU
-                elementoEncA=True               
-        if(elementoEncA==False):                #Si no está es agregado al complemento
-            cR+=universo[i]
-    return cR
 
 #Funcion para conjunto potencia de un conjunto
 def Potencia(cA):
