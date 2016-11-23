@@ -177,7 +177,8 @@ def ImprimirConjunto(conjunto,nombre_del_conjunto):
         if(i<len(conjunto)-1):
             print(conjunto[i],",",end="")       #Imprime con coma si no es el ultimo elemento
         else:
-            print(conjunto[i],end="] \n")       
+            print(conjunto[i],end="")
+    print("] \n")
     
 #Funcion para imprimir conjunto potencia
 def ImprimirPotencia(cA,nombre_del_conjunto):
